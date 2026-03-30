@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,8 +22,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await resend.emails.send({
-      from: "AI Telematics <noreply@aitelematics.io>",
+    await transporter.sendMail({
+      from: `"AI Telematics" <${process.env.GMAIL_USER}>`,
       to: "sales@aitelematics.io",
       replyTo: email,
       subject: `New Demo Request from ${firstName} ${lastName} — ${company}`,
