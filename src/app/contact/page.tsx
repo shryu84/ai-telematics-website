@@ -5,10 +5,49 @@ import { useState, FormEvent } from "react";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: FormEvent) {
+  // Controlled form state
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [fleetSize, setFleetSize] = useState("");
+  const [message, setMessage] = useState("");
+
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          company,
+          fleetSize,
+          message,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to send. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -69,8 +108,7 @@ export default function ContactPage() {
                     Thank you!
                   </h3>
                   <p className="text-muted">
-                    We&apos;ve received your message and will be in touch within
-                    one business day.
+                    Thank you. Our team will contact you shortly.
                   </p>
                 </div>
               ) : (
@@ -83,25 +121,43 @@ export default function ContactPage() {
                     personalized demo.
                   </p>
 
+                  {error && (
+                    <div className="p-4 bg-danger/10 border border-danger/20 rounded-lg text-danger text-sm">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-primary mb-1.5">
+                      <label
+                        htmlFor="firstName"
+                        className="block text-sm font-medium text-primary mb-1.5"
+                      >
                         First Name
                       </label>
                       <input
+                        id="firstName"
                         type="text"
                         required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-primary placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
                         placeholder="John"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-primary mb-1.5">
+                      <label
+                        htmlFor="lastName"
+                        className="block text-sm font-medium text-primary mb-1.5"
+                      >
                         Last Name
                       </label>
                       <input
+                        id="lastName"
                         type="text"
                         required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-primary placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
                         placeholder="Doe"
                       />
@@ -109,51 +165,75 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-1.5">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-primary mb-1.5"
+                    >
                       Work Email
                     </label>
                     <input
+                      id="email"
                       type="email"
                       required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-primary placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
                       placeholder="john@company.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-1.5">
+                    <label
+                      htmlFor="company"
+                      className="block text-sm font-medium text-primary mb-1.5"
+                    >
                       Company
                     </label>
                     <input
+                      id="company"
                       type="text"
                       required
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-primary placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
                       placeholder="Acme Logistics"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-1.5">
+                    <label
+                      htmlFor="fleetSize"
+                      className="block text-sm font-medium text-primary mb-1.5"
+                    >
                       Fleet Size
                     </label>
                     <select
+                      id="fleetSize"
                       required
+                      value={fleetSize}
+                      onChange={(e) => setFleetSize(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-primary focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition"
                     >
                       <option value="">Select fleet size</option>
-                      <option>1–50 vehicles</option>
-                      <option>51–200 vehicles</option>
-                      <option>201–1,000 vehicles</option>
-                      <option>1,000+ vehicles</option>
+                      <option value="1-50">1–50 vehicles</option>
+                      <option value="51-200">51–200 vehicles</option>
+                      <option value="201-1000">201–1,000 vehicles</option>
+                      <option value="1000+">1,000+ vehicles</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-primary mb-1.5">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-primary mb-1.5"
+                    >
                       Message (optional)
                     </label>
                     <textarea
+                      id="message"
                       rows={4}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-primary placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition resize-none"
                       placeholder="Tell us about your fleet and what you're looking for..."
                     />
@@ -161,9 +241,10 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full px-8 py-3.5 text-sm font-semibold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-lg shadow-accent/25"
+                    disabled={submitting}
+                    className="w-full px-8 py-3.5 text-sm font-semibold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-lg shadow-accent/25 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Submit Request
+                    {submitting ? "Sending..." : "Submit Request"}
                   </button>
                 </form>
               )}
@@ -216,7 +297,12 @@ export default function ContactPage() {
                 <p className="text-muted text-sm mb-4">
                   For partnership, press, or other inquiries:
                 </p>
-                <p className="text-accent font-medium">info@aitelematics.com</p>
+                <a
+                  href="mailto:info@aitelematics.io"
+                  className="text-accent font-medium hover:underline"
+                >
+                  info@aitelematics.io
+                </a>
               </div>
 
               <div className="p-6 bg-surface rounded-xl border border-border">
@@ -226,9 +312,12 @@ export default function ContactPage() {
                 <p className="text-muted text-sm mb-4">
                   Existing customers can reach our support team:
                 </p>
-                <p className="text-accent font-medium">
-                  support@aitelematics.com
-                </p>
+                <a
+                  href="mailto:support@aitelematics.io"
+                  className="text-accent font-medium hover:underline"
+                >
+                  support@aitelematics.io
+                </a>
               </div>
             </motion.div>
           </div>

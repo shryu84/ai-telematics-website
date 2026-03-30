@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     "Samsara",
     "Geotab",
   ],
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

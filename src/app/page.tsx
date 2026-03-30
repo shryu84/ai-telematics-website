@@ -26,69 +26,72 @@ function Hero() {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
-        <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-light bg-accent/10 rounded-full border border-accent/20 mb-6">
-              <span className="w-1.5 h-1.5 bg-accent-light rounded-full animate-pulse" />
-              AI-Powered Fleet Intelligence
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6"
-          >
-            Transform telematics data into{" "}
-            <span className="text-gradient">actionable intelligence</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-white/60 leading-relaxed mb-8 max-w-2xl"
-          >
-            Connect to your existing fleet platforms and unlock AI-powered
-            driver risk scoring, safety alerts, and operational insights —
-            without replacing your current stack.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap gap-4"
-          >
-            <Link
-              href="/contact"
-              className="px-8 py-3.5 text-sm font-semibold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-lg shadow-accent/25"
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left — headline & CTA */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              Request a Demo
-            </Link>
-            <Link
-              href="/product"
-              className="px-8 py-3.5 text-sm font-semibold text-white/80 hover:text-white border border-white/20 hover:border-white/40 rounded-lg transition-colors"
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-light bg-accent/10 rounded-full border border-accent/20 mb-6">
+                <span className="w-1.5 h-1.5 bg-accent-light rounded-full animate-pulse" />
+                AI-Powered Fleet Intelligence
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6"
             >
-              Explore FleetSentinel
-            </Link>
+              Transform telematics data into{" "}
+              <span className="text-gradient">actionable intelligence</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg sm:text-xl text-white/60 leading-relaxed mb-8 max-w-2xl"
+            >
+              Connect to your existing fleet platforms and unlock AI-powered
+              driver risk scoring, safety alerts, and operational insights —
+              without replacing your current stack.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Link
+                href="/contact"
+                className="px-8 py-3.5 text-sm font-semibold text-white bg-accent hover:bg-accent-dark rounded-lg transition-colors shadow-lg shadow-accent/25"
+              >
+                Request a Demo
+              </Link>
+              <Link
+                href="/product"
+                className="px-8 py-3.5 text-sm font-semibold text-white/80 hover:text-white border border-white/20 hover:border-white/40 rounded-lg transition-colors"
+              >
+                Explore FleetSentinel
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Right — animated data flow visual */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="hidden lg:block"
+          >
+            <DataFlowVisual />
           </motion.div>
         </div>
-
-        {/* Animated data flow visual */}
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 w-[420px]"
-        >
-          <DataFlowVisual />
-        </motion.div>
       </div>
     </section>
   );
