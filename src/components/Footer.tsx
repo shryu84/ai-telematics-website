@@ -4,8 +4,9 @@ const footerLinks = {
   Product: [
     { href: "/product", label: "FleetSentinel" },
     { href: "/integrations", label: "Integrations" },
-    { href: "/architecture", label: "Architecture" },
     { href: "/solutions", label: "Solutions" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/architecture", label: "Architecture" },
   ],
   Company: [
     { href: "/company", label: "About" },
