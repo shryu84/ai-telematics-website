@@ -22,20 +22,12 @@ const platforms = [
     features: ["Accelerometer data", "Engine fault codes", "Trip history", "Zone tracking", "Custom rules"],
   },
   {
-    name: "Pegasus",
-    initial: "P",
+    name: "DCT",
+    initial: "D",
     color: "#E11D48",
     description:
-      "Connect to Pegasus Gateway for GPS tracking data, events, and alerts from Syrus devices and compatible hardware.",
+      "DCT (Pegasus Gateway) enables seamless integration with existing telematics hardware, allowing AI Telematics to ingest and process fleet data without requiring hardware replacement.",
     features: ["GPS tracking", "Device events", "Geofence alerts", "I/O monitoring", "OBD-II data"],
-  },
-  {
-    name: "CalAmp",
-    initial: "C",
-    color: "#0891B2",
-    description:
-      "Integration with CalAmp's telematics cloud for LMU and TTU device data, including location, speed, heading, and event streams.",
-    features: ["LMU/TTU devices", "Location streams", "Event triggers", "PEG scripts", "CAN bus data"],
   },
   {
     name: "Motive (KeepTruckin)",
@@ -58,7 +50,7 @@ const platforms = [
 export default function IntegrationsPage() {
   return (
     <>
-      {/* Hero */}
+      {/* ── Hero ── */}
       <section className="relative pt-32 pb-20 bg-gradient-hero overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-20" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,7 +75,7 @@ export default function IntegrationsPage() {
         </div>
       </section>
 
-      {/* Platform cards */}
+      {/* ── Platform cards ── */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -91,7 +83,7 @@ export default function IntegrationsPage() {
             title="Pre-built connectors for top telematics providers"
             description="Each integration is maintained by AI Telematics and kept in sync with provider API updates."
           />
-          <div className="space-y-8">
+          <div className="space-y-6">
             {platforms.map((p, i) => (
               <motion.div
                 key={p.name}
@@ -99,14 +91,16 @@ export default function IntegrationsPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="flex flex-col md:flex-row gap-6 p-8 bg-white rounded-2xl border border-border hover:shadow-lg transition-shadow"
+                className="flex flex-col md:flex-row gap-6 p-8 bg-white rounded-2xl border border-border hover:border-accent/20 hover:shadow-lg transition-all duration-300"
               >
+                {/* Logo badge */}
                 <div
                   className="w-16 h-16 rounded-xl flex items-center justify-center text-white font-bold text-2xl shrink-0"
                   style={{ backgroundColor: p.color }}
                 >
                   {p.initial}
                 </div>
+
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-primary mb-2">
                     {p.name}
@@ -125,13 +119,21 @@ export default function IntegrationsPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* Status dot */}
+                <div className="hidden md:flex flex-col items-end justify-center shrink-0">
+                  <div className="flex items-center gap-1.5 text-xs text-success font-medium">
+                    <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                    Live
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Custom integrations */}
+      {/* ── Custom integrations ── */}
       <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
@@ -147,7 +149,7 @@ export default function IntegrationsPage() {
               <p className="text-lg text-muted mb-8">
                 We build custom integrations for enterprise customers. Our
                 engineering team can connect to any telematics provider with a
-                documented API.
+                documented API — typically within 2–4 weeks.
               </p>
               <Link
                 href="/contact"
